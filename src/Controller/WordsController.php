@@ -2,11 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Entity\Word;
+use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
 class WordsController extends AbstractController
 {
@@ -33,13 +35,13 @@ class WordsController extends AbstractController
         return null;
     }
 
-
-    public function play(Request $request): JsonResponse
+    public function play(ManagerRegistry $doctrine,  Request $request): JsonResponse
     {
-        $wordsData = file_get_contents('https://raw.githubusercontent.com/dwyl/english-words/master/words_alpha.txt');
-        $allEnglishWords = explode("\n", $wordsData);
+        $allEnglishWords = file('https://raw.githubusercontent.com/dwyl/english-words/master/words_alpha.txt');
 
-        $word = trim(strtolower($request->getContent()));
+        $requestBody = json_decode($request->getContent(), true);
+        $word = trim(strtolower($requestBody['word']));
+        $user = $requestBody['user'];
 
         if (!in_array(strtolower($word), array_map('trim', $allEnglishWords))) {
             return new JsonResponse([
@@ -51,8 +53,64 @@ class WordsController extends AbstractController
         $points = null;
         $uniqueLettersPoints = count(array_unique(str_split($word)));
         $palindromePoints = $this->checkIfPalindrome($word);
-        $almostPalindromePoints = $this->checkIfAlmostPalindrome($word);
+        $almostPalindromePoints = null;
+        if (!$palindromePoints) {
+            $almostPalindromePoints = $this->checkIfAlmostPalindrome($word);
+        }
         $points += $uniqueLettersPoints + $palindromePoints + $almostPalindromePoints;
-        return new JsonResponse(['message' => $points]);
+
+        // User
+        $userExists = $doctrine->getRepository(User::class)->findOneBy([
+            'name' => $user
+        ]);
+
+        $userEntity = null;
+
+        if (!$userExists) {
+            $userEntity = new User();
+        } else {
+            $userEntity = $userExists;
+        }
+        $userEntity->setName($user);
+        $currentPoints = $userEntity->getPoints();
+        if ($currentPoints < $points) {
+            $userEntity->setPoints($points);
+        }
+        // Store word in database
+
+        $wordEntity = new Word();
+        $wordEntity->setWord($word)
+            ->setPoints($points)
+            ->setPalindrome($palindromePoints)
+            ->setAlmostPalindrome($almostPalindromePoints)
+            ->setUser($userEntity);
+
+        $entityManager = $doctrine->getManager();
+        $entityManager->persist($userEntity);
+        $entityManager->persist($wordEntity);
+        $entityManager->flush();
+
+        return new JsonResponse(['points' => $points, 'user' => $user]);
+    }
+
+    public function highscores(EntityManagerInterface $entityManager): JsonResponse
+    {
+        $query = $entityManager->createQueryBuilder()
+            ->select('user')
+            ->from(User::class, 'user')
+            ->orderBy('user.points', 'DESC')
+            ->setMaxResults(10)
+            ->getQuery();
+
+        $results = $query->getResult();
+        $highScores = [];
+
+        foreach ($results as $user) {
+            $highScores[] = [
+                'name' => $user->getName(),
+                'points' => $user->getPoints()
+            ];
+        }
+        return new JsonResponse($highScores, JsonResponse::HTTP_OK);
     }
 }

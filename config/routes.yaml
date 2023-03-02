@@ -10,3 +10,7 @@ api_word_game:
     path: '/api/word-game'
     controller: App\Controller\WordsController::play
     methods: [POST]
+api_highscores:
+    path: '/api/word-game'
+    controller: App\Controller\WordsController::highscores
+    methods: [GET]

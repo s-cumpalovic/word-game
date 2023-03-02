@@ -14,6 +14,9 @@ class Word
     private ?int $id = null;
 
     #[ORM\Column(nullable: true)]
+    private ?string $word = null;
+
+    #[ORM\Column(nullable: true)]
     private ?int $points = null;
 
     #[ORM\Column(nullable: true)]
@@ -22,9 +25,25 @@ class Word
     #[ORM\Column(nullable: true)]
     private ?bool $almostPalindrome = null;
 
+    #[ORM\ManyToOne(inversedBy: 'words')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getWord(): ?string
+    {
+        return $this->word;
+    }
+
+    public function setWord(?string $word): self
+    {
+        $this->word = $word;
+
+        return $this;
     }
 
     public function getPoints(): ?int
@@ -59,6 +78,18 @@ class Word
     public function setAlmostPalindrome(?bool $almostPalindrome): self
     {
         $this->almostPalindrome = $almostPalindrome;
+
+        return $this;
+    }
+
+    public function getuser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setuser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
