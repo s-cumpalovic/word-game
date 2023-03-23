@@ -25,10 +25,6 @@ class Word
     #[ORM\Column(nullable: true)]
     private ?bool $almostPalindrome = null;
 
-    #[ORM\ManyToOne(inversedBy: 'words')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -78,18 +74,6 @@ class Word
     public function setAlmostPalindrome(?bool $almostPalindrome): self
     {
         $this->almostPalindrome = $almostPalindrome;
-
-        return $this;
-    }
-
-    public function getuser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setuser(?User $user): self
-    {
-        $this->user = $user;
 
         return $this;
     }

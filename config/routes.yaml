@@ -6,11 +6,7 @@ kernel:
     resource: ../src/Kernel.php
     type: annotation
 
-api_word_game: 
-    path: '/api/word-game'
-    controller: App\Controller\WordsController::play
-    methods: [POST]
-api_highscores:
-    path: '/api/word-game'
-    controller: App\Controller\WordsController::highscores
-    methods: [GET]
+api:
+    resource: ../src/Controller/
+    type: annotation
+    prefix: /api
