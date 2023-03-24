@@ -2,8 +2,26 @@
 
 namespace App\Service;
 
+use PhpParser\Node\Expr\Array_;
+
 class DictionaryService
 {
+
+    private $englishWords;
+
+    public function __construct()
+    {
+        $this->englishWords = json_decode(file_get_contents('../english-words.json'), true);
+    }
+
+    public function checkIfEnglishWord(string $word): bool
+    {
+        if (!array_key_exists(strtolower($word), $this->englishWords)) {
+            return true;
+        }
+        return false;
+    }
+
     public function uniqueLetterPoints(string $word): int
     {
         return count(array_unique(str_split($word)));
