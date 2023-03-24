@@ -12,11 +12,10 @@ class GameplayService
     }
 
 #Route
-    public function play(string $word): int
+    public function play(string $word): int | false
     {
-//        If word isn't english return -1
-        if ($this->dictionaryService->checkIfEnglishWord($word)) {
-            return -1;
+        if (!$this->dictionaryService->checkIfEnglishWord($word)) {
+            return false;
         }
 
         $points = null;

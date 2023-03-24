@@ -17,9 +17,9 @@ class WordsController extends AbstractController
         $word = trim(strtolower($requestBody['word']));
 
         $points = $gameplayService->play($word);
-        if ($points === -1) {
-            return new JsonResponse(['Word is not an english word']);
+        if (!$points) {
+            return new JsonResponse("Word is not an english word");
         }
-        return $points;
+        return new JsonResponse($points);
     }
 }

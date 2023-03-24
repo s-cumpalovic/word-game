@@ -11,12 +11,12 @@ class DictionaryService
 
     public function __construct()
     {
-        $this->englishWords = json_decode(file_get_contents('../english-words.json'), true);
+        $this->englishWords = json_decode(file_get_contents('https://raw.githubusercontent.com/dwyl/english-words/master/words_dictionary.json'), true);
     }
 
     public function checkIfEnglishWord(string $word): bool
     {
-        if (!array_key_exists(strtolower($word), $this->englishWords)) {
+        if (array_key_exists(strtolower($word), $this->englishWords)) {
             return true;
         }
         return false;
