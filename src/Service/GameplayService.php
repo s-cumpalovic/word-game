@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Model\NotEnglishWordException;
 use App\Service\DictionaryService;
 
 class GameplayService
@@ -14,7 +15,7 @@ class GameplayService
     public function play(string $word): int
     {
         if (!$this->dictionaryService->checkIfEnglishWord($word)) {
-            return 0;
+            throw new NotEnglishWordException();
         }
 
         $points = null;

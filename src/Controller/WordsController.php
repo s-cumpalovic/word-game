@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
-use App\Exception\ClientError;
+use App\Model\BadRequestBodyException;
+use App\Model\ClientError;
+use App\Model\NotEnglishWordException;
 use App\Service\GameplayService;
-use Exception;
+use http\Client;
 use PHPUnit\Util\Json;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -18,21 +20,16 @@ class WordsController extends AbstractController
     {
         try {
             $requestBody = json_decode($request->getContent(), true);
-
-            if(!array_key_exists('word', $requestBody)) {
-                throw ClientError::badRequest();
+            if (!array_key_exists('word', $requestBody)) {
+                throw new BadRequestBodyException();
             }
 
             $word = trim(strtolower($requestBody['word']));
             $points = $gameplayService->play($word);
 
-            if ($points === 0) {
-                throw ClientError::badRequest(400, 'Word is not an english word.');
-            }
-
             return new JsonResponse($points);
-        } catch (Exception $e) {
-            throw ClientError::badRequest(400, $e->getMessage());
+        } catch (NotEnglishWordException|BadRequestBodyException $e) {
+            return new JsonResponse(['message' => $e->getMessage()], 400);
         }
     }
 }
