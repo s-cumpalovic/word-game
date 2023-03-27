@@ -11,24 +11,20 @@ class GameplayService
 
     }
 
-#Route
-    public function play(string $word): int | false
+    public function play(string $word): int
     {
         if (!$this->dictionaryService->checkIfEnglishWord($word)) {
-            return false;
+            return 0;
         }
 
         $points = null;
 
-//        Unique letters points
         $points += $this->dictionaryService->uniqueLetterPoints($word);
 
-//        Palindrome points
         if ($this->dictionaryService->checkIfPalindrome($word)) {
             $points += 3;
         }
 
-//        Almost palindrome points
         if ($this->dictionaryService->checkIfAlmostPalindrome($word)) {
             $points += 2;
         }

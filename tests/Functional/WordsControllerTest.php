@@ -8,8 +8,6 @@ use Throwable;
 
 class WordsControllerTest extends WebTestCase
 {
-//    Points testing
-
     public function testUniquePoints(): void
     {
         $testData = [
@@ -19,7 +17,6 @@ class WordsControllerTest extends WebTestCase
         $client = static::createClient();
         $client->request('POST', '/api/play', [], [], [], json_encode($testData));
 
-        $this->assertResponseIsSuccessful();
         $this->assertResponseStatusCodeSame(200, 'OK');
         $this->assertEquals(4, $client->getResponse()->getContent());
     }
@@ -33,7 +30,6 @@ class WordsControllerTest extends WebTestCase
         $client = static::createClient();
         $client->request('POST', '/api/play', [], [], [], json_encode($testData));
 
-        $this->assertResponseIsSuccessful();
         $this->assertResponseStatusCodeSame(200, 'OK');
         $this->assertEquals(6, $client->getResponse()->getContent());
     }
@@ -47,7 +43,6 @@ class WordsControllerTest extends WebTestCase
         $client = static::createClient();
         $client->request('POST', '/api/play', [], [], [], json_encode($testData));
 
-        $this->assertResponseIsSuccessful();
         $this->assertResponseStatusCodeSame(200, 'OK');
         $this->assertEquals(5, $client->getResponse()->getContent());
     }
@@ -61,9 +56,7 @@ class WordsControllerTest extends WebTestCase
         $client = static::createClient();
         $client->request('POST', '/api/play', [], [], [], json_encode($testData));
 
-        $this->assertResponseIsSuccessful();
-        $this->assertEquals('"Word is not an english word"', $client->getResponse()->getContent());
-
+        $this->assertResponseStatusCodeSame(400, 'Word is not an english word.');
     }
 
     public function testWordWithSymbol(): void
@@ -75,8 +68,7 @@ class WordsControllerTest extends WebTestCase
         $client = static::createClient();
         $client->request('POST', '/api/play', [], [], [], json_encode($testData));
 
-        $this->assertResponseIsSuccessful();
-        $this->assertEquals('"Word is not an english word"', $client->getResponse()->getContent());
+        $this->assertResponseStatusCodeSame(400, 'Word is not an english word.');
     }
 
     public function testWordWithSpace(): void
@@ -88,14 +80,9 @@ class WordsControllerTest extends WebTestCase
         $client = static::createClient();
         $client->request('POST', '/api/play', [], [], [], json_encode($testData));
 
-        $this->assertResponseIsSuccessful();
-        $this->assertEquals('"Word is not an english word"', $client->getResponse()->getContent());
+        $this->assertResponseStatusCodeSame(400, 'Word is not an english word.');
     }
 
-//    HTTP testing
-
-
-    // Request body
     public function testBodyInvalidKey(): void
     {
         $testData = [
@@ -105,7 +92,7 @@ class WordsControllerTest extends WebTestCase
         $client = static::createClient();
         $client->request('POST', '/api/play', [], [], [], json_encode($testData));
 
-        $this->assertResponseStatusCodeSame(500, 'Internal Server Error');
+        $this->assertResponseStatusCodeSame(400, 'Bad request');
     }
 
     public function testBodyMultipleValues(): void
@@ -121,7 +108,6 @@ class WordsControllerTest extends WebTestCase
         $this->assertResponseStatusCodeSame(200, 'OK');
     }
 
-    // Request methods
     public function testGETRequest(): void
     {
         $client = static::createClient();
