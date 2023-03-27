@@ -2,7 +2,7 @@
 
 namespace App\Model;
 
-use Symfony\Component\Config\Definition\Exception\Exception;
+use Exception;
 
 class NotEnglishWordException extends Exception
 {

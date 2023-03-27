@@ -6,7 +6,6 @@ use PhpParser\Node\Expr\Array_;
 
 class DictionaryService
 {
-
     private $englishWords;
 
     public function __construct()
@@ -14,6 +13,10 @@ class DictionaryService
         $this->englishWords = json_decode(file_get_contents('https://raw.githubusercontent.com/dwyl/english-words/master/words_dictionary.json'), true);
     }
 
+    /**
+     * @param string $word
+     * @return bool
+     */
     public function checkIfEnglishWord(string $word): bool
     {
         if (array_key_exists(strtolower($word), $this->englishWords)) {
@@ -22,11 +25,19 @@ class DictionaryService
         return false;
     }
 
+    /**
+     * @param string $word
+     * @return int
+     */
     public function uniqueLetterPoints(string $word): int
     {
         return count(array_unique(str_split($word)));
     }
 
+    /**
+     * @param string $word
+     * @return bool
+     */
     public function checkIfPalindrome(string $word): bool
     {
         if ($word === strrev($word)) {
@@ -35,6 +46,10 @@ class DictionaryService
         return false;
     }
 
+    /**
+     * @param string $word
+     * @return bool
+     */
     public function checkIfAlmostPalindrome(string $word): bool
     {
         if (!$this->checkIfPalindrome($word)) {
