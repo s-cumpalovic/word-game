@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Model\NotEnglishWordException;
+use App\Model\Word;
 use App\Service\GameplayService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -44,7 +45,9 @@ class PlayCommand extends Command
         $helper = $this->getHelper('question');
         $question = new Question('Enter a word: ');
 
-        $word = $helper->ask($input, $output, $question);
+        $wordInput = $helper->ask($input, $output, $question);
+        $word = new Word($wordInput);
+
         try {
             $points = $this->gameplayService->play($word);
             $output->writeln(sprintf('Points: %d', $points));

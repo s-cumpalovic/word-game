@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Model\NotEnglishWordException;
+use App\Model\Word;
 
 class GameplayService
 {
@@ -12,25 +13,27 @@ class GameplayService
     }
 
     /**
-     * @param string $word
+     * @param Word $wordModel
      * @return int
      * @throws NotEnglishWordException
      */
-    public function play(string $word): int
+    public function play(Word $wordModel): int
     {
+        $word = $wordModel->toLowercase()->getWord();
+
         if (!$this->dictionaryService->checkIfEnglishWord($word)) {
             throw new NotEnglishWordException();
         }
 
         $points = null;
 
-        $points += $this->dictionaryService->uniqueLetterPoints($word);
+        $points += $wordModel->uniqueLetterPoints($word);
 
-        if ($this->dictionaryService->checkIfPalindrome($word)) {
+        if ($wordModel->isPalindrome) {
             $points += 3;
         }
 
-        if ($this->dictionaryService->checkIfAlmostPalindrome($word)) {
+        if ($wordModel->isAlmostPalindrome) {
             $points += 2;
         }
         return $points;
