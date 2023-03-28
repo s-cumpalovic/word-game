@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model\Word\Exception;
+namespace App\Model\Dictionary\Exception;
 
 use Exception;
 

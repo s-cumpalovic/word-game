@@ -2,12 +2,30 @@
 
 namespace App\Model\Word;
 
+use App\Model\Word\Exception\NotAWord;
+
 class Word
 {
     private string $word;
 
+    /**
+     * @throws NotAWord
+     */
     public function __construct(string $word)
     {
+        $this->validateWord($word);
+    }
+
+    /**
+     * @param $word
+     * @return void
+     * @throws NotAWord
+     */
+    private function validateWord($word): void
+    {
+        if (!ctype_alpha($word)) {
+            throw new NotAWord();
+        }
         $this->word = trim(strtolower($word));
     }
 
