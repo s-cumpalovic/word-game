@@ -13,6 +13,11 @@ class WordPoints extends Points
         $this->word = $word;
     }
 
+    public function totalPoints(): int
+    {
+        return $this->uniqueLetterPoints() + $this->palindromePoints() + $this->almostPalindromePoints();
+    }
+
     protected function uniqueLetterPoints(): int
     {
         return $this->word->uniqueLetters();
@@ -32,10 +37,5 @@ class WordPoints extends Points
             return 2;
         }
         return 0;
-    }
-
-    public function totalPoints(): int
-    {
-        return $this->uniqueLetterPoints() + $this->palindromePoints() + $this->almostPalindromePoints();
     }
 }
