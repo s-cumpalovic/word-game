@@ -2,7 +2,7 @@
 
 namespace App\Model;
 
-use App\Entity\Traits\WordTrait;
+use App\Model\Traits\WordTrait;
 
 class Word
 {
@@ -41,24 +41,23 @@ class Word
         return $this->uniqueLetters;
     }
 
-    private function setWord(string $word): string
+    private function setWord(string $word): void
     {
-        return $this->word = $word;
+        $this->word = $word;
     }
 
-    private function setUniqueLetters(): int
+    private function setUniqueLetters(): void
     {
-        return $this->uniqueLetters = $this->uniqueLetterPoints($this->toLowercase($this->word));
+        $this->uniqueLetters = $this->uniqueLetterPoints($this->toLowercase($this->word));
     }
 
-
-    private function setIsPalindrome(): bool
+    private function setIsPalindrome(): void
     {
-        return $this->isPalindrome = $this->checkIfPalindrome($this->toLowercase($this->word));
+        $this->isPalindrome = $this->checkIfPalindrome($this->toLowercase($this->word));
     }
 
-    private function setIsAlmostPalindrome(): bool
+    private function setIsAlmostPalindrome(): void
     {
-        return $this->isAlmostPalindrome = $this->checkIfAlmostPalindrome($this->toLowercase($this->word));
+        $this->isAlmostPalindrome = $this->checkIfAlmostPalindrome($this->toLowercase($this->word));
     }
 }

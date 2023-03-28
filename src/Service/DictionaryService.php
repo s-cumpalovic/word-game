@@ -2,7 +2,9 @@
 
 namespace App\Service;
 
-class DictionaryService
+use App\Model\Interface\DictionaryInterface;
+
+class DictionaryService implements DictionaryInterface
 {
     private $englishWords;
 
@@ -11,7 +13,7 @@ class DictionaryService
         $this->englishWords = json_decode(file_get_contents('https://raw.githubusercontent.com/dwyl/english-words/master/words_dictionary.json'), true);
     }
 
-    public function checkIfEnglishWord(string $word): bool
+    public function checkIfWordInDictionary(string $word): bool
     {
         if (array_key_exists(strtolower($word), $this->englishWords)) {
             return true;

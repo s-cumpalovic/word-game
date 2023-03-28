@@ -21,7 +21,7 @@ class GameplayService
     {
         $word = $wordModel->getWordLowercase();
 
-        if (!$this->dictionaryService->checkIfEnglishWord($word)) {
+        if (!$this->dictionaryService->checkIfWordInDictionary($word)) {
             throw new NotEnglishWordException();
         }
 
