@@ -2,31 +2,23 @@
 
 namespace App\Model\Word;
 
-use App\Model\Word\Exception\NotAWord;
+use App\Model\Word\Exception\NotAWordException;
 
 class Word
 {
     private string $word;
 
     /**
-     * @throws NotAWord
+     * @throws NotAWordException
      */
     public function __construct(string $word)
     {
-        $this->validateWord($word);
+        $this->setWord($word);
     }
 
-    /**
-     * @param $word
-     * @return void
-     * @throws NotAWord
-     */
-    private function validateWord($word): void
+    public function getWord(): string
     {
-        if (!ctype_alpha($word)) {
-            throw new NotAWord();
-        }
-        $this->word = trim(strtolower($word));
+        return $this->word;
     }
 
     public function uniqueLetters(): int
@@ -51,5 +43,16 @@ class Word
             }
         }
         return false;
+    }
+
+    /**
+     * @throws NotAWordException
+     */
+    private function setWord($word): void
+    {
+        if (!ctype_alpha($word)) {
+            throw new NotAWordException();
+        }
+        $this->word = trim(strtolower($word));
     }
 }

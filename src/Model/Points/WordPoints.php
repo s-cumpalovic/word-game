@@ -2,28 +2,23 @@
 
 namespace App\Model\Points;
 
-use App\Model\Word\Exception\NotAWord;
 use App\Model\Word\Word;
 
-class WordPoints implements Points
+class WordPoints extends Points
 {
     private Word $word;
 
-    /**
-     * @param string $word
-     * @throws NotAWord
-     */
-    public function __construct(string $word)
+    public function __construct(Word $word)
     {
-        $this->word = new Word($word);
+        $this->word = $word;
     }
 
-    public function uniqueLetterPoints(): int
+    protected function uniqueLetterPoints(): int
     {
         return $this->word->uniqueLetters();
     }
 
-    public function palindromePoints(): int
+    protected function palindromePoints(): int
     {
         if ($this->word->isPalindrome()) {
             return 3;
@@ -31,7 +26,7 @@ class WordPoints implements Points
         return 0;
     }
 
-    public function almostPalindromePoints(): int
+    protected function almostPalindromePoints(): int
     {
         if ($this->word->isAlmostPalindrome()) {
             return 2;

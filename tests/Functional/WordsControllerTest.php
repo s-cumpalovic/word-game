@@ -3,8 +3,6 @@
 namespace App\Tests\Functional;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\HttpFoundation\Request;
-use Throwable;
 
 class WordsControllerTest extends WebTestCase
 {
@@ -47,6 +45,19 @@ class WordsControllerTest extends WebTestCase
         $this->assertEquals(5, $client->getResponse()->getContent());
     }
 
+    public function testNotEnglishWord(): void
+    {
+        $testData = [
+            'word' => 'notenglish'
+        ];
+
+        $client = static::createClient();
+        $client->request('POST', '/api/play', [], [], [], json_encode($testData));
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertEquals('{"message":"Word is not an english word."}', $client->getResponse()->getContent());
+    }
+
     public function testNotAWord(): void
     {
         $testData = [
@@ -56,7 +67,8 @@ class WordsControllerTest extends WebTestCase
         $client = static::createClient();
         $client->request('POST', '/api/play', [], [], [], json_encode($testData));
 
-        $this->assertResponseStatusCodeSame(400, 'Word is not an english word.');
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertEquals('{"message":"The word must consist of letters only."}', $client->getResponse()->getContent());
     }
 
     public function testWordWithSymbol(): void
@@ -68,7 +80,8 @@ class WordsControllerTest extends WebTestCase
         $client = static::createClient();
         $client->request('POST', '/api/play', [], [], [], json_encode($testData));
 
-        $this->assertResponseStatusCodeSame(400, 'Word is not an english word.');
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertEquals('{"message":"The word must consist of letters only."}', $client->getResponse()->getContent());
     }
 
     public function testWordWithSpace(): void
@@ -80,7 +93,8 @@ class WordsControllerTest extends WebTestCase
         $client = static::createClient();
         $client->request('POST', '/api/play', [], [], [], json_encode($testData));
 
-        $this->assertResponseStatusCodeSame(400, 'Word is not an english word.');
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertEquals('{"message":"The word must consist of letters only."}', $client->getResponse()->getContent());
     }
 
     public function testBodyInvalidKey(): void
@@ -114,7 +128,6 @@ class WordsControllerTest extends WebTestCase
         $client->request('GET', '/api/play');
 
         $this->assertResponseStatusCodeSame(405, 'Method Not Allowed');
-
     }
 
     public function testPUTRequest(): void
@@ -123,7 +136,6 @@ class WordsControllerTest extends WebTestCase
         $client->request('PUT', '/api/play');
 
         $this->assertResponseStatusCodeSame(405, 'Method Not Allowed');
-
     }
 
     public function testPATCHRequest(): void

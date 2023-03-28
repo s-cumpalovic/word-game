@@ -2,13 +2,13 @@
 
 namespace App\Model\Points;
 
-interface Points
+abstract class Points
 {
-    public function uniqueLetterPoints(): int;
+    abstract protected function uniqueLetterPoints(): int;
 
-    public function palindromePoints(): int;
+    abstract protected function palindromePoints(): int;
 
-    public function almostPalindromePoints(): int;
+    abstract protected function almostPalindromePoints(): int;
 
-    public function totalPoints(): int;
+    abstract public function totalPoints(): int;
 }

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Model\Dictionary\Exception\NotEnglishWordException;
 use App\Model\Word\Exception\NotAWord;
+use App\Model\Word\Exception\NotAWordException;
 use App\Service\GameplayService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -24,9 +25,8 @@ class WordsController extends AbstractController
         try {
             $points = $gameplayService->play($requestBody['word']);
             return new JsonResponse($points);
-        } catch (NotEnglishWordException|NotAWord $e) {
+        } catch (NotEnglishWordException | NotAWordException $e) {
             return new JsonResponse(['message' => $e->getMessage()], 400);
         }
-
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Model\Dictionary;
 
-use App\Model\Dictionary\Exception\NotEnglishWordException;
+use App\Model\Word\Word;
 
 class EnglishDictionary implements Dictionary
 {
@@ -13,16 +13,9 @@ class EnglishDictionary implements Dictionary
         $this->englishWords = json_decode(file_get_contents('https://raw.githubusercontent.com/dwyl/english-words/master/words_dictionary.json'), true);
     }
 
-    /**
-     * @param string $word
-     * @return bool
-     * @throws NotEnglishWordException
-     */
-    public function checkIfWordInDictionary(string $word): bool
+    public function checkIfWordInDictionary(Word $wordModel): bool
     {
-        if (!array_key_exists(strtolower($word), $this->englishWords)) {
-            throw new NotEnglishWordException();
-        }
-        return true;
+        $word = $wordModel->getWord();
+        return array_key_exists(strtolower($word), $this->englishWords);
     }
 }
