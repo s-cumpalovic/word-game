@@ -10,7 +10,17 @@ class DictionaryService implements DictionaryInterface
 
     public function __construct()
     {
-        $this->englishWords = json_decode(file_get_contents('https://raw.githubusercontent.com/dwyl/english-words/master/words_dictionary.json'), true);
+        $this->setDictionary();
+    }
+
+    public function getDictionary(): array|object
+    {
+        return json_decode(file_get_contents('https://raw.githubusercontent.com/dwyl/english-words/master/words_dictionary.json'), true);
+    }
+
+    public function setDictionary(): void
+    {
+        $this->englishWords = $this->getDictionary();
     }
 
     public function checkIfWordInDictionary(string $word): bool
