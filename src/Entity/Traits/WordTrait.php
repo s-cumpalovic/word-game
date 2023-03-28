@@ -4,12 +4,12 @@ namespace App\Entity\Traits;
 
 trait WordTrait
 {
-    public function uniqueLetterPoints(string $word): int
+    protected function uniqueLetterPoints(string $word): int
     {
         return count(array_unique(str_split($word)));
     }
 
-    public function checkIfPalindrome(string $word): bool
+    protected function checkIfPalindrome(string $word): bool
     {
         if ($word === strrev($word)) {
             return true;
@@ -17,7 +17,7 @@ trait WordTrait
         return false;
     }
 
-    public function checkIfAlmostPalindrome(string $word): bool
+    protected function checkIfAlmostPalindrome(string $word): bool
     {
         if (!$this->checkIfPalindrome($word)) {
             $length = strlen($word);
@@ -29,5 +29,10 @@ trait WordTrait
             }
         }
         return false;
+    }
+
+    protected function toLowercase(string $word): string
+    {
+        return trim(strtolower($word));
     }
 }

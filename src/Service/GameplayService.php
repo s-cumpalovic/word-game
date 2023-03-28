@@ -19,7 +19,7 @@ class GameplayService
      */
     public function play(Word $wordModel): int
     {
-        $word = $wordModel->toLowercase()->getWord();
+        $word = $wordModel->getWordLowercase();
 
         if (!$this->dictionaryService->checkIfEnglishWord($word)) {
             throw new NotEnglishWordException();
@@ -27,13 +27,13 @@ class GameplayService
 
         $points = null;
 
-        $points += $wordModel->uniqueLetterPoints($word);
+        $points += $wordModel->getUniqueLetters();
 
-        if ($wordModel->isPalindrome) {
+        if ($wordModel->getIsPalindrome()) {
             $points += 3;
         }
 
-        if ($wordModel->isAlmostPalindrome) {
+        if ($wordModel->getIsAlmostPalindrome()) {
             $points += 2;
         }
         return $points;
