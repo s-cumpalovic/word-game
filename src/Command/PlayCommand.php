@@ -2,8 +2,7 @@
 
 namespace App\Command;
 
-use App\Model\NotEnglishWordException;
-use App\Model\Word;
+use App\Model\Word\Exception\NotEnglishWordException;
 use App\Service\GameplayService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -26,9 +25,6 @@ class PlayCommand extends Command
         $this->gameplayService = $gameplayService;
     }
 
-    /**
-     * @return void
-     */
     protected function configure(): void
     {
         $this->setDescription('Enter a word to calculate points');
@@ -46,16 +42,14 @@ class PlayCommand extends Command
         $question = new Question('Enter a word: ');
 
         $wordInput = $helper->ask($input, $output, $question);
-        $word = new Word($wordInput);
 
         try {
-            $points = $this->gameplayService->play($word);
+            $points = $this->gameplayService->play($wordInput);
             $output->writeln(sprintf('Points: %d', $points));
             return Command::SUCCESS;
         } catch (NotEnglishWordException $e) {
             $output->writeln($e->getMessage());
             return Command::FAILURE;
-
         }
     }
 

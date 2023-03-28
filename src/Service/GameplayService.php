@@ -2,41 +2,30 @@
 
 namespace App\Service;
 
-use App\Model\NotEnglishWordException;
-use App\Model\Word;
+use App\Model\Dictionary\EnglishDictionary;
+use App\Model\Gameplay\Points;
+use App\Model\Word\Exception\NotEnglishWordException;
 
 class GameplayService
 {
-    public function __construct(private DictionaryService $dictionaryService)
+    public function __construct(private EnglishDictionary $dictionaryService)
     {
 
     }
 
     /**
-     * @param Word $wordModel
+     * @param string $word
      * @return int
      * @throws NotEnglishWordException
      */
-    public function play(Word $wordModel): int
+    public function play(string $word): int
     {
-        $word = $wordModel->getWordLowercase();
-
         if (!$this->dictionaryService->checkIfWordInDictionary($word)) {
             throw new NotEnglishWordException();
         }
 
-        $points = null;
-
-        $points += $wordModel->getUniqueLetters();
-
-        if ($wordModel->getIsPalindrome()) {
-            $points += 3;
-        }
-
-        if ($wordModel->getIsAlmostPalindrome()) {
-            $points += 2;
-        }
-        return $points;
+        $pointManager = new Points($word);
+        return $pointManager->getPoints();
     }
 }
 
