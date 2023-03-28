@@ -12,13 +12,13 @@ class Points
     public function __construct(string $word)
     {
         $this->word = new Word($word);
+        $this->uniqueLetterPoints();
+        $this->isAlmostPalindromePoints();
+        $this->isPalindromePoints();
     }
 
     public function getPoints(): int
     {
-        $this->uniqueLetterPoints();
-        $this->isAlmostPalindromePoints();
-        $this->isPalindromePoints();
         return $this->points;
     }
 
