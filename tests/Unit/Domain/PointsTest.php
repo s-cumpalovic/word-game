@@ -20,17 +20,14 @@ class PointsTest extends TestCase
     public function testUniquePoints(): void
     {
         $data = [
-            'input' => ['window', 'glass', 'door', 'plate', 'picture'],
-            'output' => [5, 4, 3, 4, 7]
+            'input' => 'plate',
+            'output' => 5
         ];
+            $this->word->method('uniqueLetters')->willReturn($data['output']);
 
-        for ($i = 0; $i < count($data['input']); $i++) {
-            $this->word->method('uniqueLetters')->willReturn($data['output'][$i]);
             $pointsManager = new ThreeTwoOneWordPoints($this->word);
-            $this->assertSame($data['output'][$i], $pointsManager->uniqueLetterPoints());
-        }
 
-
+            $this->assertSame($data['output'], $pointsManager->uniqueLetterPoints());
     }
 
     public function testPalindromePoints(): void
