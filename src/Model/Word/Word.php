@@ -48,7 +48,7 @@ class Word
     /**
      * @throws NotAWordException
      */
-    private function setWord($word): void
+    private function setWord(string $word): void
     {
         if (!ctype_alpha($word)) {
             throw new NotAWordException();
