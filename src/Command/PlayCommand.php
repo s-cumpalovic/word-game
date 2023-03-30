@@ -54,9 +54,11 @@ class PlayCommand extends Command
         try {
             $points = $this->gameplayService->play($wordInput);
             $output->writeln(sprintf('Points: %d', $points));
+
             return Command::SUCCESS;
         } catch (NotAWordException|NotEnglishWordException $e) {
             $output->writeln($e->getMessage());
+
             return Command::FAILURE;
         }
     }

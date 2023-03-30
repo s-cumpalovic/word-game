@@ -35,13 +35,14 @@ class Word
     {
         if (!$this->isPalindrome()) {
             $length = strlen($this->word);
-            for ($i = 0; $i <= $length; $i++) {
+            for ($i = 0; $i <= $length; ++$i) {
                 $newWord = substr_replace($this->word, '', $i, 1);
                 if ($newWord === strrev($newWord)) {
                     return true;
                 }
             }
         }
+
         return false;
     }
 

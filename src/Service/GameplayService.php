@@ -3,9 +3,9 @@
 namespace App\Service;
 
 use App\Model\Dictionary\Dictionary;
+use App\Model\Dictionary\Exception\NotEnglishWordException;
 use App\Model\Points\ThreeTwoOneWordPoints;
 use App\Model\Word\Exception\NotAWordException;
-use App\Model\Dictionary\Exception\NotEnglishWordException;
 use App\Model\Word\Word;
 
 class GameplayService
@@ -20,13 +20,14 @@ class GameplayService
      */
     public function play(string $word): int
     {
-        $wordManager = new Word($word);
-        $pointManager = new ThreeTwoOneWordPoints($wordManager);
+        $wordProcessor = new Word($word);
 
-        if (!$this->dictionaryService->checkIfWordInDictionary($wordManager)) {
+        if (!$this->dictionaryService->checkIfWordInDictionary($wordProcessor)) {
             throw new NotEnglishWordException();
         }
 
-        return $pointManager->getTotalPoints();
+        $pointCalculator = new ThreeTwoOneWordPoints($wordProcessor);
+
+        return $pointCalculator->getTotalPoints();
     }
 }

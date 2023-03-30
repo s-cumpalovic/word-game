@@ -3,14 +3,12 @@
 namespace App\Controller;
 
 use App\Model\Dictionary\Exception\NotEnglishWordException;
-use App\Model\Word\Exception\NotAWord;
 use App\Model\Word\Exception\NotAWordException;
 use App\Service\GameplayService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Constraints as Assert;
 
 class WordsController extends AbstractController
 {
@@ -30,13 +28,13 @@ class WordsController extends AbstractController
         if (!array_key_exists('word', $requestBody)) {
             return new JsonResponse(['message' => 'Bad request'], 400);
         }
-
         /**
          * @var string $word
          */
         $word = $requestBody['word'];
         try {
             $points = $gameplayService->play($word);
+
             return new JsonResponse($points);
         } catch (NotEnglishWordException|NotAWordException $e) {
             return new JsonResponse(['message' => $e->getMessage()], 400);

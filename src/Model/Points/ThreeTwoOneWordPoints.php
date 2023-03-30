@@ -26,6 +26,7 @@ class ThreeTwoOneWordPoints extends WordPoints
         if ($this->getWord()->isPalindrome()) {
             return self::POINT_PALINDROME;
         }
+
         return self::POINT_ZERO;
     }
 
@@ -34,6 +35,7 @@ class ThreeTwoOneWordPoints extends WordPoints
         if ($this->getWord()->isAlmostPalindrome()) {
             return self::POINT_ALMOST_PALINDROME;
         }
+
         return self::POINT_ZERO;
     }
 }

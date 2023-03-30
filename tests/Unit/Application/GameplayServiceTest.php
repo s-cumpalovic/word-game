@@ -2,11 +2,11 @@
 
 namespace App\Tests\Unit\Application;
 
+use App\Model\Dictionary\Dictionary;
 use App\Model\Dictionary\Exception\NotEnglishWordException;
 use App\Model\Word\Exception\NotAWordException;
 use App\Service\GameplayService;
 use PHPUnit\Framework\TestCase;
-use App\Model\Dictionary\Dictionary;
 
 final class GameplayServiceTest extends TestCase
 {
@@ -27,12 +27,12 @@ final class GameplayServiceTest extends TestCase
 
         $data = [
             'input' => ['test', 'Glass', 'dOwN', 'LETTER'],
-            'output' => [5, 4, 4, 4]
+            'output' => [5, 4, 4, 4],
         ];
 
         $gameplayService = new GameplayService($this->dictionary);
 
-        for ($i = 0; $i < count($data['input']); $i++) {
+        for ($i = 0; $i < count($data['input']); ++$i) {
             $this->assertSame($data['output'][$i], $gameplayService->play($data['input'][$i]));
         }
     }
@@ -46,12 +46,12 @@ final class GameplayServiceTest extends TestCase
         $this->expectException(NotAWordException::class);
 
         $data = [
-            'input' => ['symbol!@#$%', 'number98765', 's p a c e']
+            'input' => ['symbol!@#$%', 'number98765', 's p a c e'],
         ];
 
         $gameplayService = new GameplayService($this->dictionary);
 
-        for ($i = 0; $i < count($data['input']); $i++) {
+        for ($i = 0; $i < count($data['input']); ++$i) {
             $gameplayService->play($data['input'][$i]);
         }
     }
@@ -66,12 +66,12 @@ final class GameplayServiceTest extends TestCase
         $this->expectException(NotEnglishWordException::class);
 
         $data = [
-            'input' => ['AllLetters', 'ButNot', 'ASingleWord', 'OfEnglishDictionary', 'qwerty']
+            'input' => ['AllLetters', 'ButNot', 'ASingleWord', 'OfEnglishDictionary', 'qwerty'],
         ];
 
         $gameplayService = new GameplayService($this->dictionary);
 
-        for ($i = 0; $i < count($data['input']); $i++) {
+        for ($i = 0; $i < count($data['input']); ++$i) {
             $gameplayService->play($data['input'][$i]);
         }
     }

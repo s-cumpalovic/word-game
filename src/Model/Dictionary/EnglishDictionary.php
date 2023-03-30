@@ -20,6 +20,7 @@ class EnglishDictionary implements Dictionary
     public function checkIfWordInDictionary(Word $word): bool
     {
         $value = $word->getWord();
+
         return array_key_exists(strtolower($value), $this->englishWords);
     }
 }

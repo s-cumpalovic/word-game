@@ -9,7 +9,7 @@ class WordsControllerTest extends WebTestCase
     public function testUniquePoints(): void
     {
         $testData = [
-            'word' => 'coffee'
+            'word' => 'coffee',
         ];
 
         $client = static::createClient();
@@ -22,7 +22,7 @@ class WordsControllerTest extends WebTestCase
     public function testPalindromePoints(): void
     {
         $testData = [
-            'word' => 'kayak'
+            'word' => 'kayak',
         ];
 
         $client = static::createClient();
@@ -35,7 +35,7 @@ class WordsControllerTest extends WebTestCase
     public function testAlmostPalindromePoints(): void
     {
         $testData = [
-            'word' => 'test'
+            'word' => 'test',
         ];
 
         $client = static::createClient();
@@ -48,7 +48,7 @@ class WordsControllerTest extends WebTestCase
     public function testNotEnglishWord(): void
     {
         $testData = [
-            'word' => 'notenglish'
+            'word' => 'notenglish',
         ];
 
         $client = static::createClient();
@@ -61,7 +61,7 @@ class WordsControllerTest extends WebTestCase
     public function testNotAWord(): void
     {
         $testData = [
-            'word' => 'coffee123'
+            'word' => 'coffee123',
         ];
 
         $client = static::createClient();
@@ -74,7 +74,7 @@ class WordsControllerTest extends WebTestCase
     public function testWordWithSymbol(): void
     {
         $testData = [
-            'word' => 'coffee@!'
+            'word' => 'coffee@!',
         ];
 
         $client = static::createClient();
@@ -87,7 +87,7 @@ class WordsControllerTest extends WebTestCase
     public function testWordWithSpace(): void
     {
         $testData = [
-            'word' => 'cof fee'
+            'word' => 'cof fee',
         ];
 
         $client = static::createClient();
@@ -100,7 +100,7 @@ class WordsControllerTest extends WebTestCase
     public function testBodyInvalidKey(): void
     {
         $testData = [
-            'badKey' => 'test'
+            'badKey' => 'test',
         ];
 
         $client = static::createClient();
@@ -113,7 +113,7 @@ class WordsControllerTest extends WebTestCase
     {
         $testData = [
             'word' => 'coffee',
-            'otherKey' => 'someValue'
+            'otherKey' => 'someValue',
         ];
 
         $client = static::createClient();

@@ -21,49 +21,48 @@ class PointsTest extends TestCase
     {
         $data = [
             'input' => 'plate',
-            'output' => 5
+            'output' => 5,
         ];
         $this->word->method('uniqueLetters')->willReturn($data['output']);
 
-        $pointsManager = new ThreeTwoOneWordPoints($this->word);
+        $pointsCalculator = new ThreeTwoOneWordPoints($this->word);
 
-        $this->assertSame($data['output'], $pointsManager->uniqueLetterPoints());
+        $this->assertSame($data['output'], $pointsCalculator->uniqueLetterPoints());
     }
 
     public function testPalindromePoints(): void
     {
         $this->word->method('isPalindrome')->willReturn(true);
 
-        $pointsManager = new ThreeTwoOneWordPoints($this->word);
+        $pointsCalculator = new ThreeTwoOneWordPoints($this->word);
 
-        $this->assertSame(3, $pointsManager->palindromePoints());
+        $this->assertSame(3, $pointsCalculator->palindromePoints());
     }
 
     public function testAlmostPalindromePoints(): void
     {
         $this->word->method('isAlmostPalindrome')->willReturn(true);
 
-        $pointsManager = new ThreeTwoOneWordPoints($this->word);
+        $pointsCalculator = new ThreeTwoOneWordPoints($this->word);
 
-        $this->assertSame(2, $pointsManager->almostPalindromePoints());
+        $this->assertSame(2, $pointsCalculator->almostPalindromePoints());
     }
 
     public function testNotPalindromePoints(): void
     {
         $this->word->method('isPalindrome')->willReturn(false);
 
-        $pointsManager = new ThreeTwoOneWordPoints($this->word);
+        $pointsCalculator = new ThreeTwoOneWordPoints($this->word);
 
-        $this->assertSame(0, $pointsManager->palindromePoints());
+        $this->assertSame(0, $pointsCalculator->palindromePoints());
     }
-
 
     public function testNotAlmostPalindromePoints(): void
     {
         $this->word->method('isAlmostPalindrome')->willReturn(false);
 
-        $pointsManager = new ThreeTwoOneWordPoints($this->word);
+        $pointsCalculator = new ThreeTwoOneWordPoints($this->word);
 
-        $this->assertSame(0, $pointsManager->almostPalindromePoints());
+        $this->assertSame(0, $pointsCalculator->almostPalindromePoints());
     }
 }

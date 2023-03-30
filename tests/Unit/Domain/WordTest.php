@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Test\Unit\Domain;
+namespace App\Tests\Unit\Domain;
 
 use App\Model\Word\Exception\NotAWordException;
 use App\Model\Word\Word;
@@ -15,10 +15,10 @@ class WordTest extends TestCase
     {
         $data = [
             'input' => ['Test', 'HUGE', 'small', 'CoMbIneD', 'word'],
-            'output' => ['test', 'huge', 'small', 'combined', 'word']
+            'output' => ['test', 'huge', 'small', 'combined', 'word'],
         ];
 
-        for ($i = 0; $i < count($data['input']); $i++) {
+        for ($i = 0; $i < count($data['input']); ++$i) {
             $word[$i] = new Word($data['input'][$i]);
             $this->assertEquals($data['output'][$i], $word[$i]->getWord());
         }
@@ -30,10 +30,10 @@ class WordTest extends TestCase
     public function testCreateWordFail(): void
     {
         $data = [
-            'input' => ['Symbol@!@#', 'Number12321', 'S p a c e']
+            'input' => ['Symbol@!@#', 'Number12321', 'S p a c e'],
         ];
 
-        for ($i = 0; $i < count($data['input']); $i++) {
+        for ($i = 0; $i < count($data['input']); ++$i) {
             $this->expectException(NotAWordException::class);
             new Word($data['input'][$i]);
         }
@@ -46,10 +46,10 @@ class WordTest extends TestCase
     {
         $data = [
             'input' => ['Test', 'Kayak', 'Window', 'Risky', 'Unique'],
-            'output' => [3, 3, 5, 5, 5]
+            'output' => [3, 3, 5, 5, 5],
         ];
 
-        for ($i = 0; $i < count($data['input']); $i++) {
+        for ($i = 0; $i < count($data['input']); ++$i) {
             $word[$i] = new Word($data['input'][$i]);
             $this->assertSame($data['output'][$i], $word[$i]->uniqueLetters());
         }
@@ -64,7 +64,7 @@ class WordTest extends TestCase
             'input' => ['deified', 'kayak', 'rotator', 'repaper', 'deed', 'peep', 'noon', 'wow'],
         ];
 
-        for ($i = 0; $i < count($data['input']); $i++) {
+        for ($i = 0; $i < count($data['input']); ++$i) {
             $word[$i] = new Word($data['input'][$i]);
             $this->assertSame(true, $word[$i]->isPalindrome());
         }
@@ -79,7 +79,7 @@ class WordTest extends TestCase
             'input' => ['cube', 'triangle', 'circle', 'pyramid', 'square', 'cone'],
         ];
 
-        for ($i = 0; $i < count($data['input']); $i++) {
+        for ($i = 0; $i < count($data['input']); ++$i) {
             $word[$i] = new Word($data['input'][$i]);
             $this->assertSame(false, $word[$i]->isPalindrome());
         }
@@ -94,7 +94,7 @@ class WordTest extends TestCase
             'input' => ['test', 'detected', 'allay', 'array', 'add', 'odd', 'off'],
         ];
 
-        for ($i = 0; $i < count($data['input']); $i++) {
+        for ($i = 0; $i < count($data['input']); ++$i) {
             $word[$i] = new Word($data['input'][$i]);
             $this->assertSame(true, $word[$i]->isAlmostPalindrome());
         }
@@ -106,7 +106,7 @@ class WordTest extends TestCase
             'input' => ['cube', 'triangle', 'circle', 'pyramid', 'square', 'cone'],
         ];
 
-        for ($i = 0; $i < count($data['input']); $i++) {
+        for ($i = 0; $i < count($data['input']); ++$i) {
             $word[$i] = new Word($data['input'][$i]);
             $this->assertSame(false, $word[$i]->isAlmostPalindrome());
         }
