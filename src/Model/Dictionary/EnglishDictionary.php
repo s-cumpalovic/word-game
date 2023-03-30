@@ -10,12 +10,16 @@ class EnglishDictionary implements Dictionary
 
     public function __construct()
     {
-        $this->englishWords = json_decode(file_get_contents('https://raw.githubusercontent.com/dwyl/english-words/master/words_dictionary.json'), true);
+        /**
+         * @var array $dictionaryFromAPI
+         */
+        $dictionaryFromAPI = json_decode(file_get_contents('https://raw.githubusercontent.com/dwyl/english-words/master/words_dictionary.json'), true);
+        $this->englishWords = $dictionaryFromAPI;
     }
 
-    public function checkIfWordInDictionary(Word $wordModel): bool
+    public function checkIfWordInDictionary(Word $word): bool
     {
-        $word = $wordModel->getWord();
-        return array_key_exists(strtolower($word), $this->englishWords);
+        $value = $word->getWord();
+        return array_key_exists(strtolower($value), $this->englishWords);
     }
 }

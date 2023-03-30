@@ -8,6 +8,3 @@ interface Dictionary
 {
     public function checkIfWordInDictionary(Word $word): bool;
 }
-
-
-

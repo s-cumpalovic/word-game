@@ -23,11 +23,11 @@ class PointsTest extends TestCase
             'input' => 'plate',
             'output' => 5
         ];
-            $this->word->method('uniqueLetters')->willReturn($data['output']);
+        $this->word->method('uniqueLetters')->willReturn($data['output']);
 
-            $pointsManager = new ThreeTwoOneWordPoints($this->word);
+        $pointsManager = new ThreeTwoOneWordPoints($this->word);
 
-            $this->assertSame($data['output'], $pointsManager->uniqueLetterPoints());
+        $this->assertSame($data['output'], $pointsManager->uniqueLetterPoints());
     }
 
     public function testPalindromePoints(): void

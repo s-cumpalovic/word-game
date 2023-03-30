@@ -13,17 +13,17 @@ class ThreeTwoOneWordPoints extends WordPoints
 
     public function __construct(Word $word)
     {
-        return $this->word = $word;
+        parent::__construct($word);
     }
 
     public function uniqueLetterPoints(): int
     {
-        return self::POINT_UNIQUE_LETTER * $this->word->uniqueLetters();
+        return self::POINT_UNIQUE_LETTER * $this->getWord()->uniqueLetters();
     }
 
     public function palindromePoints(): int
     {
-        if ($this->word->isPalindrome()) {
+        if ($this->getWord()->isPalindrome()) {
             return self::POINT_PALINDROME;
         }
         return self::POINT_ZERO;
@@ -31,7 +31,7 @@ class ThreeTwoOneWordPoints extends WordPoints
 
     public function almostPalindromePoints(): int
     {
-        if ($this->word->isAlmostPalindrome()) {
+        if ($this->getWord()->isAlmostPalindrome()) {
             return self::POINT_ALMOST_PALINDROME;
         }
         return self::POINT_ZERO;

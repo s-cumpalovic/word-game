@@ -29,13 +29,12 @@ class WordTest extends TestCase
      */
     public function testCreateWordFail(): void
     {
-        $this->expectException(NotAWordException::class);
-
         $data = [
             'input' => ['Symbol@!@#', 'Number12321', 'S p a c e']
         ];
 
         for ($i = 0; $i < count($data['input']); $i++) {
+            $this->expectException(NotAWordException::class);
             new Word($data['input'][$i]);
         }
     }
